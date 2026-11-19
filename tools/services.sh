@@ -10,7 +10,9 @@ mkdir -p \
     "$QUADLET_DIR" \
     "$JELLYFIN_DIR/data/traefik" \
     "$JELLYFIN_DIR/runtime/traefik/letsencrypt" \
-    "$JELLYFIN_DIR/runtime/jellyfin"
+    "$JELLYFIN_DIR/runtime/jellyfin/config" \
+    "$JELLYFIN_DIR/runtime/sonarr/config" \
+    "$JELLYFIN_DIR/runtime/radarr/config"
 
 if [[ ! -f "$JELLYFIN_DIR/runtime/traefik/letsencrypt/acme.json" ]]; then
     touch "$JELLYFIN_DIR/runtime/traefik/letsencrypt/acme.json"
@@ -24,12 +26,14 @@ fi
 
 podman unshare chown -R 1000:1000 "$JELLYFIN_DIR/runtime/jellyfin"
 podman unshare chown -R 1000:1000 "$JELLYFIN_DIR/runtime/sonarr"
+podman unshare chown -R 1000:1000 "$JELLYFIN_DIR/runtime/radarr"
 podman unshare chown -R 1000:1000 "/var/mnt/jellyfin"
 
 ln -sf "$JELLYFIN_DIR/jellyfin.container" "$QUADLET_DIR/jellyfin.container"
 ln -sf "$JELLYFIN_DIR/jellyfin.network" "$QUADLET_DIR/jellyfin.network"
 ln -sf "$JELLYFIN_DIR/traefik.container" "$QUADLET_DIR/traefik.container"
 ln -sf "$JELLYFIN_DIR/sonarr.container" "$QUADLET_DIR/sonarr.container"
+ln -sf "$JELLYFIN_DIR/radarr.container" "$QUADLET_DIR/radarr.container"
 
 systemctl --user daemon-reload
 
