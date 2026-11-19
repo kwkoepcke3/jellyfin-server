@@ -23,12 +23,13 @@ if [[ ! -d "/var/mnt/jellyfin" ]]; then
 fi
 
 podman unshare chown -R 1000:1000 "$JELLYFIN_DIR/runtime/jellyfin"
+podman unshare chown -R 1000:1000 "$JELLYFIN_DIR/runtime/sonarr"
 podman unshare chown -R 1000:1000 "/var/mnt/jellyfin"
 
 ln -sf "$JELLYFIN_DIR/jellyfin.container" "$QUADLET_DIR/jellyfin.container"
 ln -sf "$JELLYFIN_DIR/jellyfin.network" "$QUADLET_DIR/jellyfin.network"
 ln -sf "$JELLYFIN_DIR/traefik.container" "$QUADLET_DIR/traefik.container"
-
+ln -sf "$JELLYFIN_DIR/sonarr.container" "$QUADLET_DIR/sonarr.container"
 
 systemctl --user daemon-reload
 

@@ -5,12 +5,12 @@ Wants=network-online.target
 
 [Container]
 ContainerName=jellyfin
-Image=lscr.io/linuxserver/jellyfin:12.4ubu2604-ls58
+Image=lscr.io/linuxserver/jellyfin:version-12.4ubu2604
 Network=jellyfin.network
 
 Environment=PUID=1000
 Environment=PGID=1000
-Environment=TZ=Etc/UTC
+Environment=TZ=America/New_York
 Environment=JELLYFIN_PublishedServerUrl=https://tv.meiyou.io
 
 Volume=/home/user/jellyfin/runtime/jellyfin/config:/config:z
