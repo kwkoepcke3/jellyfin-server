@@ -6,6 +6,7 @@ Wants=network-online.target
 [Container]
 ContainerName=jellyfin
 Image=lscr.io/linuxserver/jellyfin:12.4ubu2604-ls58
+Network=jellyfin.network
 
 Environment=PUID=1000
 Environment=PGID=1000
@@ -15,10 +16,20 @@ Environment=JELLYFIN_PublishedServerUrl=https://tv.meiyou.io
 Volume=/home/user/jellyfin/runtime/jellyfin/config:/config:z
 Volume=/var/mnt/jellyfin:/data/media/disks:z
 
+# HTTP
 PublishPort=8096:8096
-PublishPort=8920:8920
+# HTTPS
+# PublishPort=8920:8920
+# local discovery
 PublishPort=7359:7359/udp
+# Service discovery used by DNLA and clients.
 PublishPort=1900:1900/udp
+
+Label=traefik.enable=true
+Label=traefik.http.routers.jellyfin.rule=Host(`tv.meiyou.io`)
+Label=traefik.http.routers.jellyfin.entrypoints=websecure
+Label=traefik.http.routers.jellyfin.tls.certresolver=websecure
+Label=traefik.http.services.jellyfin.loadbalancer.server.port=8096
 
 [Service]
 Restart=on-failure
