@@ -20,7 +20,8 @@ PublishPort=443:443
 # Drop in replacement for docker engine
 Volume=%t/podman/podman.sock:/var/run/docker.sock:ro
 Volume=%h/jellyfin/runtime/traefik/letsencrypt:/letsencrypt:Z
-Volume=%h/jellyfin/data/traefik/dynamic.yml:/etc/traefik/dynamic.yml:Z
+Volume=%h/jellyfin/runtime/traefik:/etc/traefik/runtime:Z
+Volume=%h/jellyfin/data/traefik:/etc/traefik/data:Z
 
 Exec=--providers.docker=true \
      --providers.docker.exposedbydefault=false \
@@ -34,13 +35,14 @@ Exec=--providers.docker=true \
      --certificatesResolvers.websecure.acme.storage=/letsencrypt/acme.json \
      --api=true \
      --api.dashboard=true \
-     --providers.file.filename=/etc/traefik/dynamic.yml
+     --providers.file.filename=/etc/traefik/runtime/dynamic.yml
 # staging environment for letsencrypt     
 #      --certificatesResolvers.websecure.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
 
 [Service]
 Restart=always
 EnvironmentFile=%h/.config/containers/systemd/traefik.env
+ExecStartPre=/usr/bin/bash -c "set -a; . %h/.config/containers/systemd/traefik.env; set +a; envsubst '\$TRAEFIK_BASICAUTH_ADMIN' < %h/jellyfin/data/traefik/dynamic.yml.tmpl > %h/jellyfin/runtime/traefik/dynamic.yml"
 
 [Install]
 WantedBy=default.target
