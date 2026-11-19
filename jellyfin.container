@@ -1,0 +1,27 @@
+[Unit]
+Description=Jellyfin Media Server
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+ContainerName=jellyfin
+Image=lscr.io/linuxserver/jellyfin:12.4ubu2604-ls58
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Etc/UTC
+Environment=JELLYFIN_PublishedServerUrl=https://tv.meiyou.io
+
+Volume=/home/user/jellyfin/jellyfin/config:/config:z
+Volume=/var/mnt/jellyfin:/data/media/disks:z
+
+PublishPort=8096:8096
+PublishPort=8920:8920
+PublishPort=7359:7359/udp
+PublishPort=1900:1900/udp
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
