@@ -1,0 +1,17 @@
+http:
+  routers:
+    dashboard:
+      rule: "Host(`traefik.meiyou.io`)"
+      entryPoints:
+        - websecure
+      service: api@internal
+      middlewares:
+        - auth
+      tls:
+        certResolver: websecure
+
+  middlewares:
+    auth:
+      basicAuth:
+        users:
+          - "traefik:$2a$12$yYzwSR2kXXXrT1AyVLTFbuMhqUdCbmI1wbBRR9d5pbJTKK2tg/UXC"

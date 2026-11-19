@@ -6,15 +6,12 @@ Requires=podman.socket
 
 [Container]
 ContainerName=traefik
-Image=docker.io/library/traefik:v3.4
+Image=docker.io/library/traefik:v3.7
 NoNewPrivileges=true
 SecurityLabelDisable=true
 
 # Load EMAIL and CF_API_TOKEN for both container env and Exec= expansion
 EnvironmentFile=%h/.config/containers/systemd/traefik.env
-
-Environment=CF_API_EMAIL=${EMAIL} \
-            CF_DNS_API_TOKEN=${CF_API_TOKEN}
 
 PublishPort=80:80
 PublishPort=443:443
@@ -22,6 +19,7 @@ PublishPort=443:443
 # Drop in replacement for docker engine
 Volume=%t/podman/podman.sock:/var/run/docker.sock:ro
 Volume=%h/jellyfin/runtime/traefik/letsencrypt:/letsencrypt:Z
+Volume=%h/jellyfin/data/traefik/dynamic.yml:/etc/traefik/dynamic.yml:Z
 
 Exec=--providers.docker=true \
      --providers.docker.exposedbydefault=false \
@@ -35,14 +33,9 @@ Exec=--providers.docker=true \
      --certificatesResolvers.websecure.acme.storage=/letsencrypt/acme.json \
      --api=true \
      --api.dashboard=true \
-     --certificatesResolvers.websecure.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
-
-Label=traefik.enable=true \
-      traefik.http.routers.dashboard.rule=Host(`traefik.meiyou.io`) \
-      traefik.http.routers.dashboard.entrypoints=websecure \
-      traefik.http.routers.dashboard.service=api@internal \
-      traefik.http.routers.dashboard.tls.certresolver=websecure \
-      traefik.http.routers.dashboard.middlewares=auth
+     --providers.file.filename=/etc/traefik/dynamic.yml
+# staging environment for letsencrypt     
+#      --certificatesResolvers.websecure.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory
 
 [Service]
 Restart=always
