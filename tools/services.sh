@@ -9,7 +9,10 @@ if [[ ! -d $QUADLET_DIR ]]; then
 fi
 
 ln -s $JELLYFIN_DIR/jellyfin.container $QUADLET_DIR/jellyfin.container
+ln -s $JELLYFIN_DIR/traefik.container $QUADLET_DIR/traefik.container
+
 
 systemctl --user daemon-reload
 
-systemctl --user start jellyfin.service
+systemctl --user restart traefik.service
+systemctl --user restart jellyfin.service
