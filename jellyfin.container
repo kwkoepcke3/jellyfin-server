@@ -12,7 +12,7 @@ Environment=PGID=1000
 Environment=TZ=Etc/UTC
 Environment=JELLYFIN_PublishedServerUrl=https://tv.meiyou.io
 
-Volume=/home/user/jellyfin/jellyfin/config:/config:z
+Volume=/home/user/jellyfin/runtime/jellyfin/config:/config:z
 Volume=/var/mnt/jellyfin:/data/media/disks:z
 
 PublishPort=8096:8096
