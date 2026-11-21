@@ -1,2 +1,8 @@
+[Unit]
+Description=Jellyfin Network
+
 [Network]
 NetworkName=jellyfin.network
+
+[Install]
+WantedBy=default.target
