@@ -8,6 +8,11 @@ ContainerName=jellyfin
 Image=lscr.io/linuxserver/jellyfin:version-12.4ubu2604
 Network=jellyfin.network
 
+AddDevice=/dev/dri
+GroupAdd=39
+GroupAdd=105
+
+
 Environment=PUID=1000
 Environment=PGID=1000
 Environment=TZ=America/New_York
