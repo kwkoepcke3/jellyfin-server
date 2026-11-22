@@ -6,7 +6,7 @@ Wants=network-online.target
 [Container]
 ContainerName=jellyfin
 Image=lscr.io/linuxserver/jellyfin:version-12.4ubu2604
-Network=jellyfin.network
+Network=traefik.network
 
 AddDevice=/dev/dri
 GroupAdd=39
