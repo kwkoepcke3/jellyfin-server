@@ -5,6 +5,8 @@ sudo sysctl --system
 sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 sudo firewall-cmd --reload
+
+sudo loginctl enable-linger ${USER}
 ```
 
 ## Traefik
