@@ -1,7 +1,7 @@
 [Unit]
 Description=Prowlarr
-After=tailscale.service
-BindsTo=tailscale.service
+After=network-online.target
+Wants=network-online.target
 
 [Container]
 ContainerName=prowlarr
@@ -13,7 +13,7 @@ Environment=TZ=America/New_York
 
 Volume=/home/user/mayo-server/subserv/jellyfin/runtime/prowlarr/config:/config:z
 
-Network=container:tailscale
+PublishPort=10004:9696
 
 [Service]
 Restart=on-failure

@@ -1,7 +1,7 @@
 [Unit]
 Description=Radarr
-After=tailscale.service
-BindsTo=tailscale.service
+After=network-online.target
+Wants=network-online.target
 
 [Container]
 ContainerName=radarr
@@ -14,7 +14,7 @@ Environment=TZ=America/New_York
 Volume=/home/user/mayo-server/subserv/jellyfin/runtime/radarr/config:/config:z
 Volume=/var/mnt/jellyfin:/data:z
 
-Network=container:tailscale
+PublishPort=10002:7878
 
 [Service]
 Restart=on-failure

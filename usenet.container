@@ -1,7 +1,7 @@
 [Unit]
 Description=Usenet nzbget
-After=tailscale.service
-BindsTo=tailscale.service
+After=network-online.target
+Wants=network-online.target
 
 [Container]
 ContainerName=nzbget
@@ -14,9 +14,9 @@ Environment=NZBGET_USER=nzbget
 Environment=NZBGET_PASS=tegbzn6789
 
 Volume=/home/user/mayo-server/subserv/jellyfin/runtime/usenet/config:/config:z
-Volume=/var/mnt/jellyfin:/data/media/disks
+Volume=/var/mnt/jellyfin/D2/downloads:/downloads
 
-Network=container:tailscale
+PublishPort=10005:6789
 
 [Service]
 Restart=on-failure
