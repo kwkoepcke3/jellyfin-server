@@ -1,0 +1,25 @@
+[Unit]
+Description=Usenet nzbget
+After=tailscale.service
+BindsTo=tailscale.service
+
+[Container]
+ContainerName=nzbget
+Image=lscr.io/linuxserver/nzbget:version-v26.3
+
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/New_York
+Environment=NZBGET_USER=nzbget
+Environment=NZBGET_PASS=tegbzn6789
+
+Volume=/home/user/mayo-server/subserv/jellyfin/runtime/usenet/config:/config:z
+Volume=/var/mnt/jellyfin:/data/media/disks
+
+Network=container:tailscale
+
+[Service]
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

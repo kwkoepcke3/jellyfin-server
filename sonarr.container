@@ -1,7 +1,7 @@
 [Unit]
 Description=Sonarr
-After=network-online.target
-Wants=network-online.target
+After=tailscale.service
+BindsTo=tailscale.service
 
 [Container]
 ContainerName=sonarr
@@ -11,10 +11,10 @@ Environment=PUID=1000
 Environment=PGID=1000
 Environment=TZ=America/New_York
 
-Volume=/home/user/jellyfin/runtime/sonarr/config:/config:z
+Volume=/home/user/mayo-server/subserv/jellyfin/runtime/sonarr/config:/config:z
 Volume=/var/mnt/jellyfin:/data:z
 
-PublishPort=10000:8989
+Network=container:tailscale
 
 [Service]
 Restart=on-failure
